@@ -1,6 +1,8 @@
 /// Pure color math — no dependencies, fully unit-tested.
 /// RGB values are 0–255 u8. HSL/HSV use f32 with H in 0–360, S/L/V in 0–1.
 
+use eframe::egui;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Rgb {
     pub r: u8,
@@ -31,6 +33,16 @@ pub struct Hsv {
 impl Rgb {
     pub fn new(r: u8, g: u8, b: u8) -> Self {
         Self { r, g, b }
+    }
+
+    #[cfg(test)]
+    /// Decode a Windows COLORREF-style BGR value into RGB channels.
+    pub fn from_u32_bgr(value: u32) -> Self {
+        Self {
+            r: ((value >> 16) & 0xFF) as u8,
+            g: ((value >> 8) & 0xFF) as u8,
+            b: (value & 0xFF) as u8,
+        }
     }
 
     pub fn to_hex(self) -> String {

@@ -21,13 +21,13 @@ impl App {
     fn new(cc: &eframe::CreationContext<'_>) -> Self {
         // Force egui and eframe window to use dark mode
         cc.egui_ctx.set_theme(egui::ThemePreference::Dark);
-        
-        let mut style = (*cc.egui_ctx.style()).clone();
+
         let bg = egui::Color32::from_rgb(18, 18, 18);
-        style.visuals.window_fill = bg;
-        style.visuals.panel_fill = bg;
-        style.visuals.window_stroke = egui::Stroke::NONE;
-        cc.egui_ctx.set_style(style);
+        cc.egui_ctx.style_mut_of(egui::Theme::Dark, |style| {
+            style.visuals.window_fill = bg;
+            style.visuals.panel_fill = bg;
+            style.visuals.window_stroke = egui::Stroke::NONE;
+        });
 
         Self {
             history: Vec::new(),
@@ -51,7 +51,7 @@ impl App {
 }
 
 impl eframe::App for App {
-    fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
+    fn ui(&mut self, ui: &mut egui::Ui, _frame: &mut eframe::Frame) {
         if matches!(&self.toast_msg, Some((_, t)) if t.elapsed() > Duration::from_secs(3)) {
             self.toast_msg = None;
         }
@@ -62,21 +62,21 @@ impl eframe::App for App {
         let center_rgb = capture.center();
         let picked = PickedColor::from_rgb(center_rgb);
 
-        if ctx.input(|i| i.key_pressed(egui::Key::X) || i.key_pressed(egui::Key::Space) || i.key_pressed(egui::Key::Enter)) {
+        if ui.input(|i| i.key_pressed(egui::Key::X) || i.key_pressed(egui::Key::Space) || i.key_pressed(egui::Key::Enter)) {
             self.capture_color(picked.clone());
         }
 
         egui::CentralPanel::default()
-            .frame(egui::Frame::none().fill(egui::Color32::from_rgb(18, 18, 18)).inner_margin(24.0))
-            .show(ctx, |ui| {
+            .frame(egui::Frame::NONE.fill(egui::Color32::from_rgb(18, 18, 18)).inner_margin(24.0))
+            .show(ui, |ui| {
             
             ui.horizontal(|ui| {
                 let loupe_px = 160.0;
                 let cell = loupe_px / (2.0 * half as f32 + 1.0);
                 
-                egui::Frame::none()
+                    egui::Frame::NONE
                     .fill(egui::Color32::from_rgb(12, 12, 12))
-                    .rounding(2.0)
+                    .corner_radius(2.0)
                     .inner_margin(4.0)
                     .show(ui, |ui| {
                         let (response, painter) = ui.allocate_painter(egui::vec2(loupe_px, loupe_px), egui::Sense::hover());
@@ -100,8 +100,8 @@ impl eframe::App for App {
                             egui::vec2(cell, cell),
                         );
                         
-                        painter.rect_stroke(center_rect, 0.0, egui::Stroke::new(1.5, egui::Color32::WHITE));
-                        painter.rect_stroke(center_rect.expand(1.5), 0.0, egui::Stroke::new(0.5, egui::Color32::BLACK));
+                        painter.rect_stroke(center_rect, 0.0, egui::Stroke::new(1.5, egui::Color32::WHITE), egui::StrokeKind::Outside);
+                        painter.rect_stroke(center_rect.expand(1.5), 0.0, egui::Stroke::new(0.5, egui::Color32::BLACK), egui::StrokeKind::Outside);
                     });
 
                 ui.add_space(24.0);
@@ -110,7 +110,7 @@ impl eframe::App for App {
                     ui.horizontal(|ui| {
                         let (rect, _) = ui.allocate_exact_size(egui::vec2(48.0, 48.0), egui::Sense::hover());
                         ui.painter().rect_filled(rect, 4.0, picked.rgb.to_egui_color());
-                        ui.painter().rect_stroke(rect, 4.0, egui::Stroke::new(1.0, egui::Color32::from_gray(60)));
+                        ui.painter().rect_stroke(rect, 4.0, egui::Stroke::new(1.0, egui::Color32::from_gray(60)), egui::StrokeKind::Outside);
                         
                         ui.add_space(16.0);
                         
@@ -207,7 +207,7 @@ impl eframe::App for App {
                     for h in self.history.iter().rev() {
                         let (rect, resp) = ui.allocate_exact_size(egui::vec2(36.0, 36.0), egui::Sense::click());
                         ui.painter().rect_filled(rect, 4.0, h.rgb.to_egui_color());
-                        ui.painter().rect_stroke(rect, 4.0, egui::Stroke::new(1.0, egui::Color32::from_gray(45)));
+                        ui.painter().rect_stroke(rect, 4.0, egui::Stroke::new(1.0, egui::Color32::from_gray(45)), egui::StrokeKind::Outside);
                         
                         if resp.clicked() {
                             string_to_copy = Some(h.hex.clone());
@@ -223,7 +223,7 @@ impl eframe::App for App {
             }
         });
 
-        ctx.request_repaint_after(Duration::from_millis(33));
+        ui.ctx().request_repaint_after(Duration::from_millis(33));
     }
 }
 

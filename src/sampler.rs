@@ -32,12 +32,12 @@ pub fn capture_region(cx: i32, cy: i32, half: i32) -> LoupeCapture {
         let hdc_screen = GetDC(None);
 
         // Create compatible memory DC + bitmap
-        let hdc_mem = CreateCompatibleDC(hdc_screen);
+        let hdc_mem = CreateCompatibleDC(Some(hdc_screen));
         let hbitmap = CreateCompatibleBitmap(hdc_screen, size as i32, size as i32);
-        let old_bmp = SelectObject(hdc_mem, hbitmap);
+        let old_bmp = SelectObject(hdc_mem, hbitmap.into());
 
         // Blit region from screen into memory DC
-        let _ = BitBlt(hdc_mem, 0, 0, size as i32, size as i32, hdc_screen, x0, y0, SRCCOPY);
+        let _ = BitBlt(hdc_mem, 0, 0, size as i32, size as i32, Some(hdc_screen), x0, y0, SRCCOPY);
 
         // Read back pixels via GetDIBits
         let mut bmi = BITMAPINFO {
@@ -68,7 +68,7 @@ pub fn capture_region(cx: i32, cy: i32, half: i32) -> LoupeCapture {
 
         // Clean up GDI resources
         SelectObject(hdc_mem, old_bmp);
-        let _ = DeleteObject(hbitmap);
+        let _ = DeleteObject(hbitmap.into());
         let _ = DeleteDC(hdc_mem);
         ReleaseDC(None, hdc_screen);
 

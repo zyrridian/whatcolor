@@ -1,10 +1,8 @@
 # whatcolor
 
-pick a color off your screen to get the hex and stop wasting your time.
+pick a color off your screen to get the hex and stop wasting your time. windows only for now
 
-windows only for now
-
-![Screenshot](screenshot.png)
+![Screenshot](./screenshot.png)
 
 ## why
 
@@ -12,9 +10,7 @@ I was designing something, staring at a reference, and I couldn't tell if a colo
 
 Except "real quick" turned into: open MS Paint? no. open all of Photoshop to sample one (1) pixel? absolutely not. oh wait, JC Picker exists, it's perfect, I've used it before, but I can't find it anywhere on this machine, it's not in my search bar, so now I'm redownloading a whole program to look at a color for two seconds.
 
-one minute gone. to check if something is `#FFF`.
-
-so I made this instead, because why not. open the app, press x, click, and done, hex is on your clipboard, get back to work.
+one minute gone. to check if something is `#FFF`. so I made this instead, because why not. open the app, press x, click, and done, hex is on your clipboard, get back to work.
 
 (unless there's already a faster way to do this that I just don't know about yet. if there is, don't tell me, let me have this)
 
