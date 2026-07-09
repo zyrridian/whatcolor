@@ -22,7 +22,7 @@ so I made this instead, because why not. open the app, press x, click, and done,
 
 Press x from literally anywhere, when the app is open. The window will always appear on top so you dont waste another 1 second to display it when its hidden by another window, you get a zoomed-in view of the pixel under it, click, and the hex is already copied to your clipboard.
 
-last 10 colors you picked are sitting right there too, in case you fat-fingered the click.
+last 18 colors you picked are sitting right there too, in case you fat-fingered the click.
 
 ## license
 
