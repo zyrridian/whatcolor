@@ -1,6 +1,6 @@
 # whatcolor
 
-pick a color off your screen to get the hex and stop wasting your time. windows only for now
+pick a color off your screen to get the hex and stop wasting your time. windows only for now.
 
 ![Screenshot](screenshot.png)
 
