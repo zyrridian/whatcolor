@@ -26,10 +26,10 @@ Double-click `run.cmd` for a fast launch. It builds the release exe once, then s
 
 ## install
 
-If you do not want the source code or Rust installed, run this in PowerShell:
+Run this from `cmd.exe`:
 
-```powershell
-curl.exe -L https://github.com/zyrridian/whatcolor/releases/latest/download/install.ps1 -o install.ps1; powershell -ExecutionPolicy Bypass -File .\install.ps1
+```bat
+curl.exe -L https://github.com/zyrridian/whatcolor/releases/latest/download/install.ps1 -o "%TEMP%\install.ps1" && powershell -ExecutionPolicy Bypass -File "%TEMP%\install.ps1"
 ```
 
 That downloads the latest release exe into `%LOCALAPPDATA%\Whatcolor` and tells you the exact path to run.
