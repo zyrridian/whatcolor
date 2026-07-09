@@ -2,7 +2,7 @@
 
 pick a color off your screen to get the hex and stop wasting your time. windows only for now
 
-![Screenshot](./screenshot.png)
+![Screenshot](screenshot.png)
 
 ## why
 
@@ -29,7 +29,7 @@ Double-click `run.cmd` for a fast launch. It builds the release exe once, then s
 If you do not want the source code or Rust installed, run this in PowerShell:
 
 ```powershell
-irm https://raw.githubusercontent.com/zyrridian/whatcolor/main/install.ps1 | iex
+curl.exe -L https://github.com/zyrridian/whatcolor/releases/latest/download/install.ps1 -o install.ps1; powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
 That downloads the latest release exe into `%LOCALAPPDATA%\Whatcolor` and tells you the exact path to run.

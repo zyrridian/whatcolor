@@ -26,7 +26,9 @@ jobs:
       - name: Upload Release Asset
         uses: softprops/action-gh-release@v2
         with:
-          files: target/release/whatcolor.exe
+          files: |
+            target/release/whatcolor.exe
+            install.ps1
           name: Build ${{ github.run_number }}
           tag_name: build-${{ github.run_number }}
           draft: false
